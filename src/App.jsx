@@ -2,22 +2,38 @@ import React from 'react';
 import { Typography, AppBar,Button, Card, CardActions, CardContent, CardMedia, CssBaseline, Grid, Toolbar, Container } from '@material-ui/core';
 import { PhotoCamera } from '@material-ui/icons';
 import useStyles from './styles';
+import { createTheme, ThemeProvider } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { orange } from '@material-ui/core/colors';
 
 const cards=[1,2,3,4,5,6,7,8,9];
 const App = () => {
     const classes = useStyles();
+    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+
+  const theme = React.useMemo(
+    () =>
+      createTheme({
+        palette: {
+          type: prefersDarkMode ? 'dark' : 'light',
+          primary:orange
+        },
+      }),
+    [prefersDarkMode],
+  );
+
     return (
-        <>
+        <ThemeProvider theme={theme}>
             <CssBaseline/>
             <AppBar position="relative">
 
-<Toolbar>
-    <PhotoCamera className={classes.icon}></PhotoCamera>
-    <Typography variant="h6">
-Photo Album
+                <Toolbar>
+                    <PhotoCamera className={classes.icon}></PhotoCamera>
+                    <Typography variant="h6">
+                Photo Album
 
-    </Typography>
-</Toolbar>
+                    </Typography>
+                </Toolbar>
             </AppBar>
 
 
@@ -75,14 +91,14 @@ Photo Album
                 </Container>
             </main>
             <footer className={classes.footer}>
-<Typography variant="h6" align="center" color="textPrimary" gutterBottom>
-Footer
-</Typography>
-<Typography variant="subtitle1" align="center" color="textSecondary" >
-Something here informative for the footer
-</Typography>
+                    <Typography variant="h6" align="center" color="textPrimary" gutterBottom>
+                    Footer
+                    </Typography>
+                    <Typography variant="subtitle1" align="center" color="textSecondary" >
+                    Something here informative for the footer
+                    </Typography>
             </footer>
-        </>
+        </ThemeProvider>
     );
 };
 export default App;
